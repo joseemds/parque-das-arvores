@@ -3,7 +3,7 @@ import pprint
 import unittest
 from src.avl_tree import AVLTree, Node
 
-class TestRedBlackTreeMethods(unittest.TestCase):
+class TestAVLTree(unittest.TestCase):
     def test_avl_insert(self):
         tree = AVLTree()
         tree.insert(10)

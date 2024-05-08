@@ -1,6 +1,6 @@
 from animal import Animal
 from health_historic import HealthHistoric
-from avl_tree import AVLTree
+from avl_tree import AVLTree, Node
 import json
 
 def display_menu():
@@ -115,6 +115,7 @@ def load_from_file():
     try:
         with open("data.json", "r") as file:
             data = json.load(file)
+            print("Arquivo carregado com sucesso.")
         return rebuild_tree(data)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Erro ao carregar o arquivo: {str(e)}")
@@ -122,25 +123,56 @@ def load_from_file():
 
 def rebuild_tree(data):
     if not data:
-        return None
+        return AVLTree()
+
+    def build_node(node_data):
+        if not node_data:
+            return None
+
+        animal = Animal(
+            id=node_data['id'],
+            nickname=node_data['nickname'],
+            start_date=node_data['start_date'],
+            species=node_data['species'],
+            sex=node_data['sex'],
+            birth_date=node_data['birth_date']
+        )
+
+        new_node = Node(animal)
+        new_node.left = build_node(node_data.get('left'))
+        new_node.right = build_node(node_data.get('right'))
+        update_height(new_node)  
+
+        return new_node
+
     tree = AVLTree()
+    tree.root = build_node(data)
     return tree
+
+def update_height(node):
+    if not node:
+        return 0
+    left_height = update_height(node.left)
+    right_height = update_height(node.right)
+    node.height = 1 + max(left_height, right_height)
+    return node.height
+
 
 
 if __name__ == '__main__':
     database = load_from_file()
     if not isinstance(database, AVLTree):
-        database = AVLTree() 
+        database = AVLTree()
 
     while True:
         choice = display_menu()
-
+        
         if choice == 'a':
             database = input_new_animal(database)
         elif choice == 'b':
             database = remove_animal(database)
         elif choice == 'c':
-            database = consult_animal(database)
+            consult_animal(database)
         elif choice == 'd':
             add_health_Historic(database)
         elif choice == 'e':
