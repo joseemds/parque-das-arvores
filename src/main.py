@@ -1,4 +1,6 @@
-import Animal, HealthHistoric
+from animal import Animal
+from health_historic import HeathRecord
+from avl_tree import AVLTree
 import json
 
 def display_menu():
@@ -14,7 +16,7 @@ def display_menu():
     choice = input()
     return choice
 
-def input_new_animal():
+def input_new_animal(database):
     id = input("ID: ")
     nickname = input("Apelido: ")
     start_date = input("Data de início do monitoramento: ")
@@ -22,23 +24,31 @@ def input_new_animal():
     sex = input("Sexo (M/F): ")
     birth_date = input("Data de nascimento (opcional): ")
     animal = Animal(id, nickname, start_date, species, sex, birth_date)
-    #insert dudu tree here
+    database.insert(animal)
     print("Animal adicionado com sucesso")
+    return database
 
-def remove_animal():
+def remove_animal(database):
     id = input("Id do animal a ser removido: ")
-    #insert dudu tree here
+    animal = Animal(id)
+    database.delete(animal)
     print("Animal removido com sucesso")
+    return database
 
-def consult_animal():
+def consult_animal(database):
     id = input("Id do animal a ser consultado: ")
-    animal = '#insert dudu tree here'
+    print("")
+    search_animal = Animal(id)
+    animal = database.find(search_animal)
     if animal:
-        print("etc")
+        print("Animal encontrado:", end=" ")
+        print(animal.value)
     else:
         print("Animal não encontrado")
 
-def add_health_Historic():
+    return database
+
+def add_health_Historic(database):
     id = input("Id do animal: ")
     date = input("Data da análise: ")
     temperature = float(input("Temperatura: "))
@@ -82,17 +92,19 @@ def save_to_file(root):
         json.dump(tree_data, file, indent=4)
 
 if __name__ == '__main__':
+    database = AVLTree()
     while True:
+        tree = AVLTree
         choice = display_menu()
 
         if choice == 'a':
-            input_new_animal()
+            database = input_new_animal(database)
         elif choice == 'b':
-            remove_animal()
+            database = remove_animal(database)
         elif choice == 'c':
-            consult_animal()
+            database = consult_animal(database)
         elif choice == 'd':
-            add_health_Historic()
+            add_health_Historic(database)
         elif choice == 'e':
             save_to_file('insert dudu tree root here')
         elif choice == 'f':

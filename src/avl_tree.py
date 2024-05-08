@@ -98,6 +98,20 @@ class AVLTree:
             return self.rotate_left(root)
         return root
 
+    def find(self, value):
+        return self._find_rec(self.root, value)
+
+
+    def _find_rec(self, root, value):
+        if root is None:
+            return None
+        elif root.value == value:
+            return root
+        elif value < root.value:
+            return self._find_rec(root.left, value)
+        else:
+            return self._find_rec(root.right, value)
+
 
     def min(self, root):
         curr = root
@@ -110,10 +124,6 @@ class AVLTree:
         while curr.left is not None:
             curr = curr.left
         return curr
-        
-
-
-
 
     def rotate_left(self, x):
         """Realizará a rotação esquerda utilizando como raiz o paramêtro `x`"""
