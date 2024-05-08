@@ -6,7 +6,7 @@ class Animal:
         self.species = species
         self.sex = sex
         self.birth_date = birth_date
-        self.health_records = []
+        self.health_historic = []
 
     def __repr__(self):
         return f"(id={self.id}, apelido={self.nickname}, especie={self.species}, sexo={self.sex})"
