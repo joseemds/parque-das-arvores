@@ -1,3 +1,4 @@
+import sys
 from animal import Animal
 from health_historic import HealthHistoric
 from avl_tree import AVLTree, Node
@@ -93,7 +94,7 @@ def add_health_Historic(database):
     print("Animal atualizado: ", animal.value)
     print("Registro atualizado com sucesso.")
 
-def save_to_file(root):
+def save_to_file(root, path):
     def serialize(node):
         if not node:
             return None
@@ -119,18 +120,27 @@ def save_to_file(root):
 
     tree_data = serialize(root)
     # os.makedirs(os.path.dirname("./data"), exist_ok=True)
-    with open("./data/entries.json", "w") as file:  
+    with open(path, "w") as file:  
         json.dump(tree_data, file, indent=4)
 
-def load_from_file():
+def load_from_file(path):
     try:
-        with open("./data/entries.json", "r") as file:
+        with open(path, "r") as file:
             data = json.load(file)
             print("Arquivo carregado com sucesso.")
         return rebuild_tree(data)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Erro ao carregar o arquivo: {str(e)}")
-        return AVLTree() 
+    except (FileNotFoundError) as e:
+        print(f"ATENCAO: O arquivo passado não existe, deseja continuar? [S/N] (Se sim, será criado um arquivo vazio)")
+        y_or_n = input()
+        while y_or_n not in ["S", "N", "s", "n"]:
+          y_or_n = input("Favor inserir S para sim e N para não [S/N]")
+
+        if y_or_n in ["S", "s"]:
+         with open(path, "w") as file:
+            json.dump({}, file)
+        else:
+            exit(-1)
+
 
 
 
@@ -211,9 +221,15 @@ def rebuild_tree(data):
     return tree
 
 def main():
-    database = load_from_file()
-    if not isinstance(database, AVLTree):
-        database = AVLTree()
+    path = sys.argv[1]
+
+    if path:
+        database = load_from_file(path)
+        if not isinstance(database, AVLTree):
+            database = AVLTree()
+    else:
+        print("Error: Passar como parametro arquivo para popular banco de dados e para escrita.: ./main arquivo.json")
+        return -1
     
     while True:
         try:
@@ -229,7 +245,7 @@ def main():
                 elif choice == 'd':
                     add_health_Historic(database)
                 elif choice == 'e':
-                    save_to_file(database.root)
+                    save_to_file(database.root, path)
                 elif choice == 'f':
                     print("Saindo...")
                     break
