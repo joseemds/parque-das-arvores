@@ -16,8 +16,17 @@ def display_menu():
     choice = input()
     return choice
 
+def get_id(message="Id: "):
+    while True:
+        try:
+            id = int(input(message))
+            break
+        except ValueError:
+            print("Input inválido. Insira um número válido.")
+    return id
+
 def input_new_animal(database):
-    id = int(input("ID: "))
+    id = get_id()
     nickname = input("Apelido: ")
     start_date = input("Data de início do monitoramento: ")
     species = input("Espécie: ")
@@ -33,14 +42,14 @@ def input_new_animal(database):
     return database
 
 def remove_animal(database):
-    id = int(input("Id do animal a ser removido: "))
+    id = get_id("Id do animal a ser removido: ")
     animal = Animal(id)
     database.delete(animal)
     print("Animal removido com sucesso")
     return database
 
 def consult_animal(database):
-    id = int(input("Id do animal a ser consultado: "))
+    id = get_id("Id do animal a ser consultado: ")
     print("")
     search_animal = Animal(id)
     animal = database.find(search_animal)
@@ -53,12 +62,7 @@ def consult_animal(database):
     return database
 
 def add_health_Historic(database):
-    while True:
-        try:
-            id = int(input("Id do animal: "))
-            break
-        except ValueError:
-            print("Input inválido. Insira um número válido.")
+    id = get_id("Id do animal: ")
     date = input("Data da análise: ")
     while True:
         try:
