@@ -53,13 +53,18 @@ def consult_animal(database):
     return database
 
 def add_health_Historic(database):
-    id = input("Id do animal: ")
+    while True:
+        try:
+            id = int(input("Id do animal: "))
+            break
+        except ValueError:
+            print("Input inválido. Insira um número válido.")
     date = input("Data da análise: ")
     while True:
         try:
-            temperature = float(input("Temperatura: "))
-            weight = float(input("Peso: "))
-            height = float(input("Altura: "))
+            temperature = float(input("Temperatura em ºC: "))
+            weight = round(float(input("Peso em Kg: ")), 3)
+            height = float(input("Altura em cm: "))
             break
         except ValueError:
             print("Input inválido. Por favor, insira um número válido.")
@@ -81,6 +86,7 @@ def add_health_Historic(database):
         return
     
     animal.value.health_historic.append(health_historic)
+    print("Animal atualizado: ", animal.value)
     print("Registro atualizado com sucesso.")
 
 def save_to_file(root):
@@ -122,41 +128,59 @@ def load_from_file():
         return AVLTree() 
 
 def rebuild_tree(data):
-    if not data:
-        return AVLTree()
-
-    def build_node(node_data):
-        if not node_data:
-            return None
-
-        animal = Animal(
-            id=node_data['id'],
-            nickname=node_data['nickname'],
-            start_date=node_data['start_date'],
-            species=node_data['species'],
-            sex=node_data['sex'],
-            birth_date=node_data['birth_date']
-        )
-
-        new_node = Node(animal)
-        new_node.left = build_node(node_data.get('left'))
-        new_node.right = build_node(node_data.get('right'))
-        update_height(new_node)  
-
-        return new_node
+    if not data or not isinstance(data, list):
+        return AVLTree()  # Return an empty AVLTree if data is empty or not a list
 
     tree = AVLTree()
-    tree.root = build_node(data)
+    # Iterate over the list and insert each item into the AVL tree
+    for item in data:
+        animal = Animal(
+            id=item['id'],
+            nickname=item['nickname'],
+            start_date=item['start_date'],
+            species=item['species'],
+            sex=item['sex'],
+            birth_date=item['birth_date']
+        )
+        # Add health history records
+        for historic in item['health_historic']:
+            health_history = HealthHistoric(
+                date=historic['date'],
+                temperature=historic['temperature'],
+                weight=historic['weight'],
+                height=historic['height'],
+                collected_blood_sample=historic['collected_blood_sample'],
+                health_exam_result_was_ok=historic['health_exam_result_was_ok'],
+                observation=historic['observation']
+            )
+            animal.health_historic.append(health_history)
+        
+        # Insert the animal into the AVL tree
+        tree.insert(animal)
+        
     return tree
 
-def update_height(node):
-    if not node:
-        return 0
-    left_height = update_height(node.left)
-    right_height = update_height(node.right)
-    node.height = 1 + max(left_height, right_height)
-    return node.height
+if __name__ == '__main__':
+    database = load_from_file()
+    if not isinstance(database, AVLTree):
+        database = AVLTree()
 
+    while True:
+        choice = display_menu()
+        
+        if choice == 'a':
+            database = input_new_animal(database)
+        elif choice == 'b':
+            database = remove_animal(database)
+        elif choice == 'c':
+            consult_animal(database)
+        elif choice == 'd':
+            add_health_Historic(database)
+        elif choice == 'e':
+            save_to_file(database.root)
+        elif choice == 'f':
+            print("Saindo...")
+            break
 
 
 if __name__ == '__main__':
