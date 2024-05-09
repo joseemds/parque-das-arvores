@@ -1,6 +1,7 @@
+import os
 from animal import Animal
 from health_historic import HealthHistoric
-from avl_tree import AVLTree, Node
+from avl_tree import AVLTree
 import json
 
 def display_menu():
@@ -114,12 +115,13 @@ def save_to_file(root):
         }
 
     tree_data = serialize(root)
-    with open("data.json", "w") as file:  
+    # os.makedirs(os.path.dirname("./data"), exist_ok=True)
+    with open("./data/entries.json", "w") as file:  
         json.dump(tree_data, file, indent=4)
 
 def load_from_file():
     try:
-        with open("data.json", "r") as file:
+        with open("./data/entries.json", "r") as file:
             data = json.load(file)
             print("Arquivo carregado com sucesso.")
         return rebuild_tree(data)
@@ -159,47 +161,38 @@ def rebuild_tree(data):
         
     return tree
 
-if __name__ == '__main__':
+def main():
     database = load_from_file()
     if not isinstance(database, AVLTree):
         database = AVLTree()
-
+    
     while True:
-        choice = display_menu()
-        
-        if choice == 'a':
-            database = input_new_animal(database)
-        elif choice == 'b':
-            database = remove_animal(database)
-        elif choice == 'c':
-            consult_animal(database)
-        elif choice == 'd':
-            add_health_Historic(database)
-        elif choice == 'e':
-            save_to_file(database.root)
-        elif choice == 'f':
-            print("Saindo...")
-            break
+        try:
+            in_menu = False
+            choice = display_menu()
 
+            in_menu = True
+            
+            if choice == 'a':
+                database = input_new_animal(database)
+            elif choice == 'b':
+                database = remove_animal(database)
+            elif choice == 'c':
+                consult_animal(database)
+            elif choice == 'd':
+                add_health_Historic(database)
+            elif choice == 'e':
+                save_to_file(database.root)
+            elif choice == 'f':
+                print("Saindo...")
+                break
+        except KeyboardInterrupt:
+            if not in_menu:
+                print("Saindo...")
+                break
+            else: 
+                print("Cancelando operação...")
 
 if __name__ == '__main__':
-    database = load_from_file()
-    if not isinstance(database, AVLTree):
-        database = AVLTree()
+    main()
 
-    while True:
-        choice = display_menu()
-        
-        if choice == 'a':
-            database = input_new_animal(database)
-        elif choice == 'b':
-            database = remove_animal(database)
-        elif choice == 'c':
-            consult_animal(database)
-        elif choice == 'd':
-            add_health_Historic(database)
-        elif choice == 'e':
-            save_to_file(database.root)
-        elif choice == 'f':
-            print("Saindo...")
-            break
