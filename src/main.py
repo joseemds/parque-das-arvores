@@ -17,7 +17,7 @@ def display_menu():
     return choice
 
 def input_new_animal(database):
-    id = input("ID: ")
+    id = int(input("ID: "))
     nickname = input("Apelido: ")
     start_date = input("Data de início do monitoramento: ")
     species = input("Espécie: ")
@@ -33,7 +33,7 @@ def input_new_animal(database):
     return database
 
 def remove_animal(database):
-    id = input("Id do animal a ser removido: ")
+    id = int(input("Id do animal a ser removido: "))
     animal = Animal(id)
     database.delete(animal)
     print("Animal removido com sucesso")
@@ -132,7 +132,6 @@ def load_from_file():
 
 def rebuild_node(data):
     def _rec_build_node(data, height):
-        print(data)
         if not data:
             return None
 
@@ -161,6 +160,8 @@ def rebuild_node(data):
         node.height = height
         node.left = _rec_build_node(data['left'], height+1)
         node.right = _rec_build_node(data['right'], height+1)
+
+        return node
 
     return _rec_build_node(data, 1)
 
@@ -207,7 +208,6 @@ def rebuild_tree(data):
 
 def main():
     database = load_from_file()
-    print(database.root)
     if not isinstance(database, AVLTree):
         database = AVLTree()
     
