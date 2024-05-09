@@ -221,15 +221,14 @@ def rebuild_tree(data):
     return tree
 
 def main():
-    path = sys.argv[1]
-
-    if path:
+    try:
+        path = sys.argv[1]
         database = load_from_file(path)
         if not isinstance(database, AVLTree):
             database = AVLTree()
-    else:
+    except IndexError:
         print("Error: Passar como parametro arquivo para popular banco de dados e para escrita.: ./main arquivo.json")
-        return -1
+        exit(-1)
     
     while True:
         try:
