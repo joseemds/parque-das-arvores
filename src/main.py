@@ -129,10 +129,10 @@ def load_from_file():
 
 def rebuild_tree(data):
     if not data or not isinstance(data, list):
-        return AVLTree()  # Return an empty AVLTree if data is empty or not a list
+        return AVLTree()  
 
     tree = AVLTree()
-    # Iterate over the list and insert each item into the AVL tree
+   
     for item in data:
         animal = Animal(
             id=item['id'],
@@ -142,7 +142,7 @@ def rebuild_tree(data):
             sex=item['sex'],
             birth_date=item['birth_date']
         )
-        # Add health history records
+
         for historic in item['health_historic']:
             health_history = HealthHistoric(
                 date=historic['date'],
@@ -155,7 +155,6 @@ def rebuild_tree(data):
             )
             animal.health_historic.append(health_history)
         
-        # Insert the animal into the AVL tree
         tree.insert(animal)
         
     return tree
