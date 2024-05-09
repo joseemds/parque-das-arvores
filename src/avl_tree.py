@@ -1,17 +1,17 @@
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, left=None, right=None, height=1):
         self.value = value
-        self.left = None
-        self.right = None
-        self.height = 1
+        self.left = left
+        self.right = right
+        self.height = height
 
     def __repr__(self):
         return f"Node({self.value}, {self.left}, {self.right}, {self.height})"
 
 class AVLTree:
 
-    def __init__(self):
-        self.root = None
+    def __init__(self, root=None):
+        self.root = root
 
 
     def update_height(self, node):

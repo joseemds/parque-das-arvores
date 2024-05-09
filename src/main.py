@@ -1,7 +1,6 @@
-import os
 from animal import Animal
 from health_historic import HealthHistoric
-from avl_tree import AVLTree
+from avl_tree import AVLTree, Node
 import json
 
 def display_menu():
@@ -41,7 +40,7 @@ def remove_animal(database):
     return database
 
 def consult_animal(database):
-    id = input("Id do animal a ser consultado: ")
+    id = int(input("Id do animal a ser consultado: "))
     print("")
     search_animal = Animal(id)
     animal = database.find(search_animal)
@@ -129,15 +128,47 @@ def load_from_file():
         print(f"Erro ao carregar o arquivo: {str(e)}")
         return AVLTree() 
 
-def rebuild_tree(data):
-    if not data or not isinstance(data, list):
-        return AVLTree()  
 
-    tree = AVLTree()
-   
+
+def rebuild_node(data):
+    def _rec_build_node(data, height):
+        print(data)
+        if not data:
+            return None
+
+        animal = Animal(
+            id=int(data['id']),
+            nickname=data['nickname'],
+            start_date=data['start_date'],
+            species=data['species'],
+            sex=data['sex'],
+            birth_date=data['birth_date']
+        )
+
+        for historic in data['health_historic']:
+            health_history = HealthHistoric(
+                date=historic['date'],
+                temperature=historic['temperature'],
+                weight=historic['weight'],
+                height=historic['height'],
+                collected_blood_sample=historic['collected_blood_sample'],
+                health_exam_result_was_ok=historic['health_exam_result_was_ok'],
+                observation=historic['observation']
+            )
+            animal.health_historic.append(health_history)
+
+        node = Node(animal)
+        node.height = height
+        node.left = _rec_build_node(data['left'], height+1)
+        node.right = _rec_build_node(data['right'], height+1)
+
+    return _rec_build_node(data, 1)
+
+
+def construct_tree(data, tree):
     for item in data:
         animal = Animal(
-            id=item['id'],
+            id=int(item['id']),
             nickname=item['nickname'],
             start_date=item['start_date'],
             species=item['species'],
@@ -158,40 +189,51 @@ def rebuild_tree(data):
             animal.health_historic.append(health_history)
         
         tree.insert(animal)
-        
+
+    return tree
+
+
+
+
+def rebuild_tree(data):
+    if not data:
+        return AVLTree()
+    elif isinstance(data, list):
+        return construct_tree(data, AVLTree())
+
+    root = rebuild_node(data)
+    tree = AVLTree(root)
     return tree
 
 def main():
     database = load_from_file()
+    print(database.root)
     if not isinstance(database, AVLTree):
         database = AVLTree()
     
     while True:
         try:
-            in_menu = False
             choice = display_menu()
-
-            in_menu = True
             
-            if choice == 'a':
-                database = input_new_animal(database)
-            elif choice == 'b':
-                database = remove_animal(database)
-            elif choice == 'c':
-                consult_animal(database)
-            elif choice == 'd':
-                add_health_Historic(database)
-            elif choice == 'e':
-                save_to_file(database.root)
-            elif choice == 'f':
-                print("Saindo...")
-                break
+            try:
+                if choice == 'a':
+                    database = input_new_animal(database)
+                elif choice == 'b':
+                    database = remove_animal(database)
+                elif choice == 'c':
+                    consult_animal(database)
+                elif choice == 'd':
+                    add_health_Historic(database)
+                elif choice == 'e':
+                    save_to_file(database.root)
+                elif choice == 'f':
+                    print("Saindo...")
+                    break
+            except KeyboardInterrupt:
+                print("Cancelando operação")
         except KeyboardInterrupt:
-            if not in_menu:
-                print("Saindo...")
-                break
-            else: 
-                print("Cancelando operação...")
+            print("Saindo...")
+            break
 
 if __name__ == '__main__':
     main()

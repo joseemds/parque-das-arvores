@@ -1,11 +1,201 @@
 {
-    "id": "1",
-    "nickname": "dudu",
-    "start_date": "18052003",
-    "species": "cachorro",
+    "id": 4,
+    "nickname": "Max",
+    "start_date": "2022-01-02",
+    "species": "Cobra",
     "sex": "M",
-    "birth_date": "",
-    "health_historic": [],
-    "left": null,
-    "right": null
+    "birth_date": "2019-12-25",
+    "health_historic": [
+        {
+            "date": "2022-05-20",
+            "temperature": 39.0,
+            "weight": 25.0,
+            "height": 65,
+            "collected_blood_sample": "N",
+            "health_exam_result_was_ok": "N",
+            "observation": "Perna quebrada"
+        }
+    ],
+    "left": {
+        "id": 2,
+        "nickname": "Whiskers",
+        "start_date": "2021-08-23",
+        "species": "Gato",
+        "sex": "F",
+        "birth_date": "2020-03-30",
+        "health_historic": [
+            {
+                "date": "2022-02-15",
+                "temperature": 37.7,
+                "weight": 4.3,
+                "height": 25,
+                "collected_blood_sample": "N",
+                "health_exam_result_was_ok": "S",
+                "observation": ""
+            }
+        ],
+        "left": {
+            "id": 1,
+            "nickname": "Dudu",
+            "start_date": "2021-06-01",
+            "species": "Cachorro",
+            "sex": "M",
+            "birth_date": "2019-05-15",
+            "health_historic": [
+                {
+                    "date": "2022-01-10",
+                    "temperature": 38.5,
+                    "weight": 22.5,
+                    "height": 60,
+                    "collected_blood_sample": "S",
+                    "health_exam_result_was_ok": "S",
+                    "observation": ""
+                }
+            ],
+            "left": null,
+            "right": null
+        },
+        "right": {
+            "id": 3,
+            "nickname": "Bella",
+            "start_date": "2021-07-14",
+            "species": "Cachorro",
+            "sex": "F",
+            "birth_date": "2018-11-20",
+            "health_historic": [
+                {
+                    "date": "2022-03-05",
+                    "temperature": 38.0,
+                    "weight": 18.6,
+                    "height": 55,
+                    "collected_blood_sample": "S",
+                    "health_exam_result_was_ok": "N",
+                    "observation": "Infeccao"
+                }
+            ],
+            "left": null,
+            "right": null
+        }
+    },
+    "right": {
+        "id": 8,
+        "nickname": "Rex",
+        "start_date": "2022-04-21",
+        "species": "Cobra",
+        "sex": "M",
+        "birth_date": "2020-05-15",
+        "health_historic": [
+            {
+                "date": "2022-09-10",
+                "temperature": 37.9,
+                "weight": 30.0,
+                "height": 70,
+                "collected_blood_sample": "N",
+                "health_exam_result_was_ok": "N",
+                "observation": "Braco quebrada"
+            }
+        ],
+        "left": {
+            "id": 6,
+            "nickname": "Ginger",
+            "start_date": "2022-03-11",
+            "species": "Passaro",
+            "sex": "F",
+            "birth_date": "2020-10-22",
+            "health_historic": [
+                {
+                    "date": "2022-07-15",
+                    "temperature": 38.2,
+                    "weight": 3.8,
+                    "height": 24,
+                    "collected_blood_sample": "N",
+                    "health_exam_result_was_ok": "N",
+                    "observation": "Infeccao no olho"
+                }
+            ],
+            "left": {
+                "id": 5,
+                "nickname": "Breno",
+                "start_date": "2022-02-17",
+                "species": "Gato",
+                "sex": "M",
+                "birth_date": "2021-04-05",
+                "health_historic": [
+                    {
+                        "date": "2022-06-30",
+                        "temperature": 37.5,
+                        "weight": 5.0,
+                        "height": 30,
+                        "collected_blood_sample": "S",
+                        "health_exam_result_was_ok": "S",
+                        "observation": ""
+                    }
+                ],
+                "left": null,
+                "right": null
+            },
+            "right": {
+                "id": 7,
+                "nickname": "Daisy",
+                "start_date": "2021-09-09",
+                "species": "Cachorro",
+                "sex": "F",
+                "birth_date": "2019-07-07",
+                "health_historic": [
+                    {
+                        "date": "2022-08-01",
+                        "temperature": 38.3,
+                        "weight": 20.0,
+                        "height": 50,
+                        "collected_blood_sample": "S",
+                        "health_exam_result_was_ok": "S",
+                        "observation": ""
+                    }
+                ],
+                "left": null,
+                "right": null
+            }
+        },
+        "right": {
+            "id": 9,
+            "nickname": "Misty",
+            "start_date": "2021-10-31",
+            "species": "Gato",
+            "sex": "F",
+            "birth_date": "2020-09-05",
+            "health_historic": [
+                {
+                    "date": "2022-10-25",
+                    "temperature": 37.6,
+                    "weight": 4.5,
+                    "height": 26,
+                    "collected_blood_sample": "S",
+                    "health_exam_result_was_ok": "S",
+                    "observation": ""
+                }
+            ],
+            "left": null,
+            "right": {
+                "id": 10,
+                "nickname": "Penado",
+                "start_date": "2022-05-29",
+                "species": "Passaro",
+                "sex": "M",
+                "birth_date": "2021-02-20",
+                "health_historic": [
+                    {
+                        "date": "2022-11-11",
+                        "temperature": 38.4,
+                        "weight": 22.0,
+                        "height": 58,
+                        "collected_blood_sample": "N",
+                        "health_exam_result_was_ok": "S",
+                        "observation": ""
+                    }
+                ],
+                "left": null,
+                "right": null
+            }
+        }
+    }
 }
